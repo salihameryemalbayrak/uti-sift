@@ -257,13 +257,6 @@ class SiftConfigs(Configs):
     configSigma: ConfigSigma
     configOctaveLayers: ConfigOctaveLayers
 
-class SiftConfigs(Configs):
-    configMaxFeatures: ConfigMaxFeatures
-    configContrastThreshold: ConfigContrastThreshold
-    configEdgeThreshold: ConfigEdgeThreshold
-    configSigma: ConfigSigma
-    configOctaveLayers: ConfigOctaveLayers
-
 class SiftOutputs(Outputs):
     outputImage: OutputImage
     outputData: OutputData
