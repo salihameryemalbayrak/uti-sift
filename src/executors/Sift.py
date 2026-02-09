@@ -45,11 +45,11 @@ class Sift(Component):
             angle=float(kp.angle),
             response=float(kp.response),
             octave=int(kp.octave),
-            class_id=int(kp.class_id),
+            class_id=int(getattr(kp, "class_id", -1)),
         )
 
-    def run(self):
-        img = Image.get_frame(self.image, self.redis_db)
+    def sift_inference(self):
+        img = Image.get_frame(img=self.image, redis_db=self.redis_db)
         frame = self._ensure_uint8(np.asarray(img.value))
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -68,13 +68,14 @@ class Sift(Component):
         )
 
         kp, des = sift.detectAndCompute(gray, None)
-
         kp = kp or []
-        des = des if des is not None else np.zeros((0, 128), dtype=np.float32)
+        if des is None:
+            des = np.zeros((0, 128), dtype=np.float32)
+        else:
+            des = np.asarray(des, dtype=np.float32)
 
         vis = cv2.drawKeypoints(frame, kp, None)
 
-        # detections
         self.detections = [
             Detection(
                 confidence=1.0,
@@ -86,7 +87,11 @@ class Sift(Component):
         ]
 
         self.outputData = {
-            "descriptors": des.tolist()
+            "descriptors": {
+                "shape": [int(des.shape[0]), int(des.shape[1])],
+                "dtype": "float32",
+                "values": des.tolist(),
+            }
         }
 
         out_img = ImageModel(
@@ -97,9 +102,9 @@ class Sift(Component):
             value=vis,
             type=img.type,
         )
+        self.image = Image.set_frame(img=out_img, package_uID=self.uID, redis_db=self.redis_db)
 
-        self.image = Image.set_frame(out_img, self.uID, self.redis_db)
-        return build_response(self)
+        return build_response(context=self)
 
     def run(self):
         return self.sift_inference()
