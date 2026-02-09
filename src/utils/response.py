@@ -4,7 +4,7 @@ from components.Package.src.models.PackageModel import PackageModel, PackageConf
 
 
 def build_response(context):
-    outputData = OutputData(value=context.data)
+    outputData = OutputData(value=context.outputData)
     outputDetections = OutputDetections(value=context.detections)
     outputImage = OutputImage(value=context.image)
     siftOutputs = SiftOutputs(outputImage=outputImage, outputDetections=outputDetections, outputData=outputData)
