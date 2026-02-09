@@ -51,6 +51,7 @@ class OutputImage(Output):
 class SiftInputs(Inputs):
     inputImage: InputImage
 
+
 class ConfigMaxFeaturesValue(Config):
     name: Literal["configMaxFeaturesValue"] = "configMaxFeaturesValue"
     value: int = Field(default=0, ge=0, le=100000)
@@ -75,12 +76,12 @@ class MaxFeaturesEnabled(Config):
 
 class MaxFeaturesDisabled(Config):
     name: Literal["MaxFeaturesDisabled"] = "MaxFeaturesDisabled"
-    value: Literal[False] = False
-    type: Literal["bool"] = "bool"
+    value: int = 0
+    type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled"
+        title = "Disabled (default)"
 
 
 class ConfigMaxFeatures(Config):
@@ -91,6 +92,7 @@ class ConfigMaxFeatures(Config):
 
     class Config:
         title = "Max Features"
+        json_schema_extra = {"target": "value"}
 
 
 class ConfigContrastThresholdValue(Config):
@@ -117,12 +119,12 @@ class ContrastThresholdEnabled(Config):
 
 class ContrastThresholdDisabled(Config):
     name: Literal["ContrastThresholdDisabled"] = "ContrastThresholdDisabled"
-    value: Literal[False] = False
-    type: Literal["bool"] = "bool"
+    value: float = 0.04
+    type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled"
+        title = "Disabled (default)"
 
 
 class ConfigContrastThreshold(Config):
@@ -133,6 +135,8 @@ class ConfigContrastThreshold(Config):
 
     class Config:
         title = "Contrast Threshold"
+        json_schema_extra = {"target": "value"}
+
 
 class ConfigEdgeThresholdValue(Config):
     name: Literal["configEdgeThresholdValue"] = "configEdgeThresholdValue"
@@ -158,12 +162,12 @@ class EdgeThresholdEnabled(Config):
 
 class EdgeThresholdDisabled(Config):
     name: Literal["EdgeThresholdDisabled"] = "EdgeThresholdDisabled"
-    value: Literal[False] = False
-    type: Literal["bool"] = "bool"
+    value: float = 10.0
+    type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled"
+        title = "Disabled (default)"
 
 
 class ConfigEdgeThreshold(Config):
@@ -174,7 +178,7 @@ class ConfigEdgeThreshold(Config):
 
     class Config:
         title = "Edge Threshold"
-
+        json_schema_extra = {"target": "value"}
 
 class ConfigSigmaValue(Config):
     name: Literal["configSigmaValue"] = "configSigmaValue"
@@ -200,12 +204,12 @@ class SigmaEnabled(Config):
 
 class SigmaDisabled(Config):
     name: Literal["SigmaDisabled"] = "SigmaDisabled"
-    value: Literal[False] = False
-    type: Literal["bool"] = "bool"
+    value: float = 1.6
+    type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled"
+        title = "Disabled (default)"
 
 
 class ConfigSigma(Config):
@@ -216,9 +220,8 @@ class ConfigSigma(Config):
 
     class Config:
         title = "Sigma"
+        json_schema_extra = {"target": "value"}
 
-
-# ---------- nOctaveLayers ----------
 
 class ConfigOctaveLayersValue(Config):
     name: Literal["configOctaveLayersValue"] = "configOctaveLayersValue"
@@ -244,12 +247,12 @@ class OctaveLayersEnabled(Config):
 
 class OctaveLayersDisabled(Config):
     name: Literal["OctaveLayersDisabled"] = "OctaveLayersDisabled"
-    value: Literal[False] = False
-    type: Literal["bool"] = "bool"
+    value: int = 3  # ✅ default nOctaveLayers
+    type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled"
+        title = "Disabled (default)"
 
 
 class ConfigOctaveLayers(Config):
@@ -260,6 +263,7 @@ class ConfigOctaveLayers(Config):
 
     class Config:
         title = "Octave Layers"
+        json_schema_extra = {"target": "value"}
 
 class SiftConfigs(Configs):
     configMaxFeatures: ConfigMaxFeatures
