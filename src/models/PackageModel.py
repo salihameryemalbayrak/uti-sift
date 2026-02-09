@@ -60,7 +60,6 @@ class ConfigMaxFeaturesValue(Config):
 
     class Config:
         title = "Max Features"
-        json_schema_extra = {"shortDescription": "OpenCV SIFT nfeatures (0 = unlimited)"}
 
 
 class MaxFeaturesEnabled(Config):
@@ -81,7 +80,7 @@ class MaxFeaturesDisabled(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled (default)"
+        title = "Disabled"
 
 
 class ConfigMaxFeatures(Config):
@@ -92,7 +91,6 @@ class ConfigMaxFeatures(Config):
 
     class Config:
         title = "Max Features"
-        json_schema_extra = {"target": "value"}
 
 
 class ConfigContrastThresholdValue(Config):
@@ -103,7 +101,6 @@ class ConfigContrastThresholdValue(Config):
 
     class Config:
         title = "Contrast Threshold"
-        json_schema_extra = {"shortDescription": "OpenCV SIFT contrastThreshold"}
 
 
 class ContrastThresholdEnabled(Config):
@@ -124,7 +121,7 @@ class ContrastThresholdDisabled(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled (default)"
+        title = "Disabled"
 
 
 class ConfigContrastThreshold(Config):
@@ -135,7 +132,6 @@ class ConfigContrastThreshold(Config):
 
     class Config:
         title = "Contrast Threshold"
-        json_schema_extra = {"target": "value"}
 
 
 class ConfigEdgeThresholdValue(Config):
@@ -146,7 +142,6 @@ class ConfigEdgeThresholdValue(Config):
 
     class Config:
         title = "Edge Threshold"
-        json_schema_extra = {"shortDescription": "OpenCV SIFT edgeThreshold"}
 
 
 class EdgeThresholdEnabled(Config):
@@ -167,7 +162,7 @@ class EdgeThresholdDisabled(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled (default)"
+        title = "Disabled"
 
 
 class ConfigEdgeThreshold(Config):
@@ -178,7 +173,6 @@ class ConfigEdgeThreshold(Config):
 
     class Config:
         title = "Edge Threshold"
-        json_schema_extra = {"target": "value"}
 
 class ConfigSigmaValue(Config):
     name: Literal["configSigmaValue"] = "configSigmaValue"
@@ -188,7 +182,6 @@ class ConfigSigmaValue(Config):
 
     class Config:
         title = "Sigma"
-        json_schema_extra = {"shortDescription": "OpenCV SIFT sigma"}
 
 
 class SigmaEnabled(Config):
@@ -209,7 +202,7 @@ class SigmaDisabled(Config):
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled (default)"
+        title = "Disabled"
 
 
 class ConfigSigma(Config):
@@ -220,7 +213,6 @@ class ConfigSigma(Config):
 
     class Config:
         title = "Sigma"
-        json_schema_extra = {"target": "value"}
 
 
 class ConfigOctaveLayersValue(Config):
@@ -231,7 +223,6 @@ class ConfigOctaveLayersValue(Config):
 
     class Config:
         title = "Octave Layers"
-        json_schema_extra = {"shortDescription": "OpenCV SIFT nOctaveLayers"}
 
 
 class OctaveLayersEnabled(Config):
@@ -263,7 +254,6 @@ class ConfigOctaveLayers(Config):
 
     class Config:
         title = "Octave Layers"
-        json_schema_extra = {"target": "value"}
 
 class SiftConfigs(Configs):
     configMaxFeatures: ConfigMaxFeatures
