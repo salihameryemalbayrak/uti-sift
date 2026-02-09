@@ -13,7 +13,7 @@ from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.Sift.src.utils.response import build_response
-from components.Sift.src.models.PackageModel import PackageModel, KeypPoints, Detection
+from components.Sift.src.models.PackageModel import PackageModel, KeyPoints, Detection
 from sdks.novavision.src.base.model import KeyPoints
 from sdks.novavision.src.base.model import Image as ImageModel
 
