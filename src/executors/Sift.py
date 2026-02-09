@@ -14,7 +14,6 @@ from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.Sift.src.utils.response import build_response
 from components.Sift.src.models.PackageModel import PackageModel, KeyPoints, Detection
-from sdks.novavision.src.base.model import KeyPoints
 from sdks.novavision.src.base.model import Image as ImageModel
 
 class Sift(Component):
@@ -54,43 +53,22 @@ class Sift(Component):
         )
 
     @staticmethod
-    def _is_disabled(cfg) -> bool:
-        return cfg.value.value is False
+    def _get_cfg_value(cfg, inner_name: str):
+        v = cfg.value
+        if isinstance(v, (int, float)):
+            return v
+        return getattr(v, inner_name).value
 
     def sift_inference(self):
         img = Image.get_frame(img=self.image, redis_db=self.redis_db)
         frame = self._ensure_uint8(np.asarray(img.value))
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        nfeatures = (
-            self.cfg_max_features.value.configMaxFeaturesValue.value
-            if not self._is_disabled(self.cfg_max_features)
-            else 0
-        )
-
-        contrast = (
-            self.cfg_contrast.value.configContrastThresholdValue.value
-            if not self._is_disabled(self.cfg_contrast)
-            else 0.04
-        )
-
-        edge = (
-            self.cfg_edge.value.configEdgeThresholdValue.value
-            if not self._is_disabled(self.cfg_edge)
-            else 10
-        )
-
-        sigma = (
-            self.cfg_sigma.value.configSigmaValue.value
-            if not self._is_disabled(self.cfg_sigma)
-            else 1.6
-        )
-
-        octave_layers = (
-            self.cfg_octave.value.configOctaveLayersValue.value
-            if not self._is_disabled(self.cfg_octave)
-            else 3
-        )
+        nfeatures = int(self._get_cfg_value(self.cfg_max_features, "configMaxFeaturesValue"))
+        contrast = float(self._get_cfg_value(self.cfg_contrast, "configContrastThresholdValue"))
+        edge = float(self._get_cfg_value(self.cfg_edge, "configEdgeThresholdValue"))
+        sigma = float(self._get_cfg_value(self.cfg_sigma, "configSigmaValue"))
+        octave_layers = int(self._get_cfg_value(self.cfg_octave, "configOctaveLayersValue"))
 
         sift = cv2.SIFT_create(
             nfeatures=int(nfeatures),
