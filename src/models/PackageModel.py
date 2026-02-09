@@ -61,22 +61,18 @@ class MaxFeaturesValue(Config):
         title = "Max Features"
         json_schema_extra = {"shortDescription": "OpenCV SIFT nfeatures (0 = unlimited)"}
 
-
-class MaxFeaturesEnableOn(Config):
-    name: Literal["maxFeaturesEnableOn"] = "maxFeaturesEnableOn"
-    value: Literal[True] = True
-    type: Literal["bool"] = "bool"
+class MaxFeaturesEnabled(Config):
+    name: Literal["Enabled"] = "Enabled"
+    value: MaxFeaturesValue                 # ✅ textbox config burada
+    type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-
-    maxFeatures: MaxFeaturesValue
 
     class Config:
         title = "Enabled"
-        json_schema_extra = {"target": "maxFeatures"}
+        json_schema_extra = {"target": "value"}
 
-
-class MaxFeaturesEnableOff(Config):
-    name: Literal["maxFeaturesEnableOff"] = "maxFeaturesEnableOff"
+class MaxFeaturesDisabled(Config):
+    name: Literal["Disabled"] = "Disabled"
     value: Literal[False] = False
     type: Literal["bool"] = "bool"
     field: Literal["option"] = "option"
@@ -84,19 +80,15 @@ class MaxFeaturesEnableOff(Config):
     class Config:
         title = "Disabled"
 
-
 class ConfigMaxFeatures(Config):
-    """
-    Enable/disable user override for SIFT nfeatures.
-    """
     name: Literal["configMaxFeatures"] = "configMaxFeatures"
-    value: Union[MaxFeaturesEnableOn, MaxFeaturesEnableOff]
+    value: Union[MaxFeaturesEnabled, MaxFeaturesDisabled]
     type: Literal["object"] = "object"
-    field: Literal["dropdownlist"] = "dropdownlist"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
     class Config:
         title = "Max Features"
-        json_schema_extra = {"shortDescription": "Enable and set maximum number of SIFT keypoints"}
+        json_schema_extra = {"shortDescription": "Enable and set maximum number of SIFT keypoints", "target": "value"}
 
 
 class ContrastThresholdValue(Config):
@@ -109,22 +101,18 @@ class ContrastThresholdValue(Config):
         title = "Contrast Threshold"
         json_schema_extra = {"shortDescription": "OpenCV SIFT contrastThreshold"}
 
-
-class ContrastEnableOn(Config):
-    name: Literal["contrastEnableOn"] = "contrastEnableOn"
-    value: Literal[True] = True
-    type: Literal["bool"] = "bool"
+class ContrastEnabled(Config):
+    name: Literal["Enabled"] = "Enabled"
+    value: ContrastThresholdValue
+    type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-
-    contrastThreshold: ContrastThresholdValue
 
     class Config:
         title = "Enabled"
-        json_schema_extra = {"target": "contrastThreshold"}
+        json_schema_extra = {"target": "value"}
 
-
-class ContrastEnableOff(Config):
-    name: Literal["contrastEnableOff"] = "contrastEnableOff"
+class ContrastDisabled(Config):
+    name: Literal["Disabled"] = "Disabled"
     value: Literal[False] = False
     type: Literal["bool"] = "bool"
     field: Literal["option"] = "option"
@@ -132,16 +120,15 @@ class ContrastEnableOff(Config):
     class Config:
         title = "Disabled"
 
-
 class ConfigContrastThreshold(Config):
     name: Literal["configContrastThreshold"] = "configContrastThreshold"
-    value: Union[ContrastEnableOn, ContrastEnableOff]
+    value: Union[ContrastEnabled, ContrastDisabled]
     type: Literal["object"] = "object"
-    field: Literal["dropdownlist"] = "dropdownlist"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
     class Config:
         title = "Contrast Threshold"
-        json_schema_extra = {"shortDescription": "Enable and set SIFT contrastThreshold"}
+        json_schema_extra = {"shortDescription": "Enable and set SIFT contrastThreshold", "target": "value"}
 
 
 class EdgeThresholdValue(Config):
@@ -154,22 +141,18 @@ class EdgeThresholdValue(Config):
         title = "Edge Threshold"
         json_schema_extra = {"shortDescription": "OpenCV SIFT edgeThreshold"}
 
-
-class EdgeEnableOn(Config):
-    name: Literal["edgeEnableOn"] = "edgeEnableOn"
-    value: Literal[True] = True
-    type: Literal["bool"] = "bool"
+class EdgeEnabled(Config):
+    name: Literal["Enabled"] = "Enabled"
+    value: EdgeThresholdValue
+    type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-
-    edgeThreshold: EdgeThresholdValue
 
     class Config:
         title = "Enabled"
-        json_schema_extra = {"target": "edgeThreshold"}
+        json_schema_extra = {"target": "value"}
 
-
-class EdgeEnableOff(Config):
-    name: Literal["edgeEnableOff"] = "edgeEnableOff"
+class EdgeDisabled(Config):
+    name: Literal["Disabled"] = "Disabled"
     value: Literal[False] = False
     type: Literal["bool"] = "bool"
     field: Literal["option"] = "option"
@@ -177,16 +160,15 @@ class EdgeEnableOff(Config):
     class Config:
         title = "Disabled"
 
-
 class ConfigEdgeThreshold(Config):
     name: Literal["configEdgeThreshold"] = "configEdgeThreshold"
-    value: Union[EdgeEnableOn, EdgeEnableOff]
+    value: Union[EdgeEnabled, EdgeDisabled]
     type: Literal["object"] = "object"
-    field: Literal["dropdownlist"] = "dropdownlist"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
     class Config:
         title = "Edge Threshold"
-        json_schema_extra = {"shortDescription": "Enable and set SIFT edgeThreshold"}
+        json_schema_extra = {"shortDescription": "Enable and set SIFT edgeThreshold", "target": "value"}
 
 
 class SigmaValue(Config):
@@ -199,22 +181,18 @@ class SigmaValue(Config):
         title = "Sigma"
         json_schema_extra = {"shortDescription": "OpenCV SIFT sigma"}
 
-
-class SigmaEnableOn(Config):
-    name: Literal["sigmaEnableOn"] = "sigmaEnableOn"
-    value: Literal[True] = True
-    type: Literal["bool"] = "bool"
+class SigmaEnabled(Config):
+    name: Literal["Enabled"] = "Enabled"
+    value: SigmaValue
+    type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-
-    sigma: SigmaValue
 
     class Config:
         title = "Enabled"
-        json_schema_extra = {"target": "sigma"}
+        json_schema_extra = {"target": "value"}
 
-
-class SigmaEnableOff(Config):
-    name: Literal["sigmaEnableOff"] = "sigmaEnableOff"
+class SigmaDisabled(Config):
+    name: Literal["Disabled"] = "Disabled"
     value: Literal[False] = False
     type: Literal["bool"] = "bool"
     field: Literal["option"] = "option"
@@ -222,16 +200,15 @@ class SigmaEnableOff(Config):
     class Config:
         title = "Disabled"
 
-
 class ConfigSigma(Config):
     name: Literal["configSigma"] = "configSigma"
-    value: Union[SigmaEnableOn, SigmaEnableOff]
+    value: Union[SigmaEnabled, SigmaDisabled]
     type: Literal["object"] = "object"
-    field: Literal["dropdownlist"] = "dropdownlist"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
     class Config:
         title = "Sigma"
-        json_schema_extra = {"shortDescription": "Enable and set SIFT sigma"}
+        json_schema_extra = {"shortDescription": "Enable and set SIFT sigma", "target": "value"}
 
 
 class OctaveLayersValue(Config):
@@ -244,22 +221,18 @@ class OctaveLayersValue(Config):
         title = "Octave Layers"
         json_schema_extra = {"shortDescription": "OpenCV SIFT nOctaveLayers"}
 
-
-class OctaveLayersEnableOn(Config):
-    name: Literal["octaveLayersEnableOn"] = "octaveLayersEnableOn"
-    value: Literal[True] = True
-    type: Literal["bool"] = "bool"
+class OctaveLayersEnabled(Config):
+    name: Literal["Enabled"] = "Enabled"
+    value: OctaveLayersValue
+    type: Literal["object"] = "object"
     field: Literal["option"] = "option"
-
-    nOctaveLayers: OctaveLayersValue
 
     class Config:
         title = "Enabled"
-        json_schema_extra = {"target": "nOctaveLayers"}
+        json_schema_extra = {"target": "value"}
 
-
-class OctaveLayersEnableOff(Config):
-    name: Literal["octaveLayersEnableOff"] = "octaveLayersEnableOff"
+class OctaveLayersDisabled(Config):
+    name: Literal["Disabled"] = "Disabled"
     value: Literal[False] = False
     type: Literal["bool"] = "bool"
     field: Literal["option"] = "option"
@@ -267,17 +240,22 @@ class OctaveLayersEnableOff(Config):
     class Config:
         title = "Disabled"
 
-
 class ConfigOctaveLayers(Config):
     name: Literal["configOctaveLayers"] = "configOctaveLayers"
-    value: Union[OctaveLayersEnableOn, OctaveLayersEnableOff]
+    value: Union[OctaveLayersEnabled, OctaveLayersDisabled]
     type: Literal["object"] = "object"
-    field: Literal["dropdownlist"] = "dropdownlist"
+    field: Literal["dependentDropdownlist"] = "dependentDropdownlist"
 
     class Config:
         title = "Octave Layers"
-        json_schema_extra = {"shortDescription": "Enable and set SIFT nOctaveLayers"}
+        json_schema_extra = {"shortDescription": "Enable and set SIFT nOctaveLayers", "target": "value"}
 
+class SiftConfigs(Configs):
+    configMaxFeatures: ConfigMaxFeatures
+    configContrastThreshold: ConfigContrastThreshold
+    configEdgeThreshold: ConfigEdgeThreshold
+    configSigma: ConfigSigma
+    configOctaveLayers: ConfigOctaveLayers
 
 class SiftConfigs(Configs):
     configMaxFeatures: ConfigMaxFeatures
