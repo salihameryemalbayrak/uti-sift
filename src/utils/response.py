@@ -1,14 +1,16 @@
 
 from sdks.novavision.src.helper.package import PackageHelper
-from components.Package.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, PackageOutputs, PackageResponse, PackageExecutor, OutputImage
+from components.Package.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, SiftOutputs, SiftResponse, SiftExecutor, OutputImage, OutputDetections, OutputData
 
 
 def build_response(context):
+    outputData = OutputData(value=context.data)
+    outputDetections = OutputDetections(value=context.detections)
     outputImage = OutputImage(value=context.image)
-    Outputs = PackageOutputs(outputImage=outputImage)
-    packageResponse = PackageResponse(outputs=Outputs)
-    packageExecutor = PackageExecutor(value=packageResponse)
-    executor = ConfigExecutor(value=packageExecutor)
+    siftOutputs = SiftOutputs(outputImage=outputImage, outputDetections=outputDetections, outputData=outputData)
+    siftResponse = SiftResponse(outputs=siftOutputs)
+    siftExecutor = SiftExecutor(value=siftResponse)
+    executor = ConfigExecutor(value=siftExecutor)
     packageConfigs = PackageConfigs(executor=executor)
     package = PackageHelper(packageModel=PackageModel, packageConfigs=packageConfigs)
     packageModel = package.build_model(context)
