@@ -5,6 +5,7 @@ import numpy as np
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../../../"))
 
+from typing import List, Optional
 from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
@@ -24,9 +25,7 @@ class Sift(Component):
         self.edge = self.request.get_param("configEdgeThresholdValue")
         self.sigma = self.request.get_param("configSigmaValue")
         self.octave_layers = self.request.get_param("configOctaveLayersValue")
-
         self.detections = []
-        self.outputData = {}
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
@@ -37,7 +36,7 @@ class Sift(Component):
         return arr.astype(np.uint8) if arr.dtype != np.uint8 else arr
 
     @staticmethod
-    def _kp_to_model(kp, desc_row: np.ndarray | None) -> KeyPoints:
+    def _kp_to_model(kp, descriptor=None) -> KeyPoints:
         return KeyPoints(
             cx=float(kp.pt[0]),
             cy=float(kp.pt[1]),
@@ -45,7 +44,7 @@ class Sift(Component):
             angle=float(kp.angle),
             response=float(kp.response),
             octave=int(kp.octave),
-            descriptor=desc_row.astype(float).tolist() if desc_row is not None else None,
+            descriptor=descriptor.astype(np.float32).tolist() if descriptor is not None else None,
         )
 
     def sift_inference(self):
@@ -86,15 +85,21 @@ class Sift(Component):
 
         vis = cv2.drawKeypoints(frame, kp, None)
 
-        self.detections = [
-            Detection(
-                confidence=1.0,
-                classId=0,
-                classLabel="SIFT",
-                keyPoints=keypoints_models,
-                boundingBox=None,
-            )
-        ]
+        self.detections = []
+
+        if des is not None and len(kp) == len(des):
+            for i, point in enumerate(kp):
+                kp_model = self._kp_to_model(point, des[i])
+
+                self.detections.append(
+                    Detection(
+                        confidence=1.0,
+                        classId=0,
+                        classLabel="SIFT",
+                        keyPoints=[kp_model],
+                        boundingBox=None,
+                    )
+                )
 
         out_img = ImageModel(
             name=img.name,
