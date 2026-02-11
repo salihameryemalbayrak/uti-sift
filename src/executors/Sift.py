@@ -63,19 +63,25 @@ class Sift(Component):
         vis = cv2.drawKeypoints(frame, kp, None)
 
         keypoints_payload = []
-        for i, p in enumerate(kp):
-            keypoints_payload.append({
-                "cx": float(p.pt[0]),
-                "cy": float(p.pt[1]),
-                "size": float(p.size),
-                "angle": float(p.angle),
-                "response": float(p.response),
-                "octave": int(p.octave),
-                "descriptor": des[i].tolist() if i < des.shape[0] else []
-            })
+        for p in kp:
+            keypoints_payload.append(
+                {
+                    "cx": float(p.pt[0]),
+                    "cy": float(p.pt[1]),
+                    "size": float(p.size),
+                    "angle": float(p.angle),
+                    "response": float(p.response),
+                    "octave": int(p.octave),
+                }
+            )
 
         self.outputData = {
-            "keypoints": keypoints_payload
+            "descriptors": {
+                "shape": [int(des.shape[0]), int(des.shape[1])],
+                "dtype": "float32",
+                "values": des.tolist(),
+            },
+            "keypoints": keypoints_payload,
         }
         out_img = ImageModel(
             name=img.name,
@@ -85,12 +91,7 @@ class Sift(Component):
             value=vis,
             type=img.type,
         )
-
-        self.image = Image.set_frame(
-            img=out_img,
-            package_uID=self.uID,
-            redis_db=self.redis_db,
-        )
+        self.image = Image.set_frame(img=out_img, package_uID=self.uID, redis_db=self.redis_db)
 
         return build_response(context=self)
 
