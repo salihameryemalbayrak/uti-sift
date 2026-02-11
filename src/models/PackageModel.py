@@ -12,13 +12,23 @@ class InputImage(Input):
     class Config:
         title = "Image"
 
-class OutputData(Output):
-    name: Literal["outputData"] = "outputData"
-    value: Union[list, dict]
-    type: Literal["object"] = "object"
+class KeyPoints(BaseKeyPoints):
+    size: float | None = None
+    angle: float | None = None
+    response: float | None = None
+    octave: int | None = None
+    descriptor: Optional[List[float]] = None
+
+class Detection(BaseDetection):
+    keyPoints: Optional[List[KeyPoints]] = None
+
+class OutputDetections(Output):
+    name: Literal["outputDetections"] = "outputDetections"
+    value: List[Detection]
+    type: Literal["list"] = "list"
 
     class Config:
-        title = "Output Data"
+        title = "Output Detections"
 
 
 class OutputImage(Output):
@@ -246,7 +256,7 @@ class SiftConfigs(Configs):
 
 class SiftOutputs(Outputs):
     outputImage: OutputImage
-    outputData: OutputData
+    outputDetections: OutputDetections
 
 
 class SiftRequest(Request):

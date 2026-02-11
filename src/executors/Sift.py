@@ -9,7 +9,7 @@ from sdks.novavision.src.media.image import Image
 from sdks.novavision.src.base.component import Component
 from sdks.novavision.src.helper.executor import Executor
 from components.Sift.src.utils.response import build_response
-from components.Sift.src.models.PackageModel import PackageModel
+from components.Sift.src.models.PackageModel import PackageModel, Detection, KeyPoints
 from sdks.novavision.src.base.model import Image as ImageModel
 
 
@@ -24,7 +24,8 @@ class Sift(Component):
         self.edge = self.request.get_param("configEdgeThresholdValue")
         self.sigma = self.request.get_param("configSigmaValue")
         self.octave_layers = self.request.get_param("configOctaveLayersValue")
-        self.outputData = {}
+
+        self.detections = []
 
     @staticmethod
     def bootstrap(config: dict) -> dict:
@@ -33,6 +34,19 @@ class Sift(Component):
     @staticmethod
     def _ensure_uint8(arr: np.ndarray) -> np.ndarray:
         return arr.astype(np.uint8) if arr.dtype != np.uint8 else arr
+
+    @staticmethod
+    def _kp_to_model(kp, desc_row: np.ndarray | None) -> KeyPoints:
+        return KeyPoints(
+            cx=float(kp.pt[0]),
+            cy=float(kp.pt[1]),
+            size=float(kp.size),
+            angle=float(kp.angle),
+            response=float(kp.response),
+            octave=int(kp.octave),
+            class_id=int(getattr(kp, "class_id", -1)),
+            descriptor=desc_row.astype(float).tolist() if desc_row is not None else None,
+        )
 
     def sift_inference(self):
         img = Image.get_frame(img=self.image, redis_db=self.redis_db)
@@ -56,33 +70,32 @@ class Sift(Component):
         kp, des = sift.detectAndCompute(gray, None)
         kp = kp or []
         if des is None:
+            des = np.zeros((len(kp), 128), dtype=np.float32)
+        else:
+            des = np.asarray(des, dtype=np.float32)
+
+        keypoints_models = [
+            self._kp_to_model(kp_i, des[i] if i < len(des) else None)
+            for i, kp_i in enumerate(kp)
+        ]
+
+        if des is None:
             des = np.zeros((0, 128), dtype=np.float32)
         else:
             des = np.asarray(des, dtype=np.float32)
 
         vis = cv2.drawKeypoints(frame, kp, None)
 
-        keypoints_payload = []
-        for p in kp:
-            keypoints_payload.append(
-                {
-                    "cx": float(p.pt[0]),
-                    "cy": float(p.pt[1]),
-                    "size": float(p.size),
-                    "angle": float(p.angle),
-                    "response": float(p.response),
-                    "octave": int(p.octave),
-                }
+        self.detections = [
+            Detection(
+                confidence=1.0,
+                classId=0,
+                classLabel="SIFT",
+                keyPoints=keypoints_models,
+                boundingBox=None,
             )
+        ]
 
-        self.outputData = {
-            "descriptors": {
-                "shape": [int(des.shape[0]), int(des.shape[1])],
-                "dtype": "float32",
-                "values": des.tolist(),
-            },
-            "keypoints": keypoints_payload,
-        }
         out_img = ImageModel(
             name=img.name,
             uID=img.uID,

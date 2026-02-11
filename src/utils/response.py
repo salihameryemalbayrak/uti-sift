@@ -1,12 +1,13 @@
 
 from sdks.novavision.src.helper.package import PackageHelper
-from components.Sift.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, SiftOutputs, SiftResponse, SiftExecutor, OutputImage, OutputData
+from components.Sift.src.models.PackageModel import PackageModel, PackageConfigs, ConfigExecutor, SiftOutputs, SiftResponse, SiftExecutor, OutputImage, OutputDetections
 
 
 def build_response(context):
     outputData = OutputData(value=context.outputData)
+    outputDetections = OutputDetections(value=context.detections)
     outputImage = OutputImage(value=context.image)
-    siftOutputs = SiftOutputs(outputImage=outputImage, outputData=outputData)
+    siftOutputs = SiftOutputs(outputImage=outputImage, outputDetections=outputDetections, outputData=outputData)
     siftResponse = SiftResponse(outputs=siftOutputs)
     siftExecutor = SiftExecutor(value=siftResponse)
     executor = ConfigExecutor(value=siftExecutor)
