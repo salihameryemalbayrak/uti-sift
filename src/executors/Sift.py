@@ -37,7 +37,7 @@ class Sift(Component):
         return arr.astype(np.uint8) if arr.dtype != np.uint8 else arr
 
     @staticmethod
-    def _kp_to_model(kp) -> KeyPoints:
+    def _kp_to_model(kp, desc_row: np.ndarray | None) -> KeyPoints:
         return KeyPoints(
             cx=float(kp.pt[0]),
             cy=float(kp.pt[1]),
@@ -46,6 +46,7 @@ class Sift(Component):
             response=float(kp.response),
             octave=int(kp.octave),
             class_id=int(getattr(kp, "class_id", -1)),
+            descriptor=desc_row.astype(float).tolist() if desc_row is not None else None,
         )
 
     def sift_inference(self):
@@ -70,6 +71,16 @@ class Sift(Component):
         kp, des = sift.detectAndCompute(gray, None)
         kp = kp or []
         if des is None:
+            des = np.zeros((len(kp), 128), dtype=np.float32)
+        else:
+            des = np.asarray(des, dtype=np.float32)
+
+        keypoints_models = [
+            self._kp_to_model(kp_i, des[i] if i < len(des) else None)
+            for i, kp_i in enumerate(kp)
+        ]
+
+        if des is None:
             des = np.zeros((0, 128), dtype=np.float32)
         else:
             des = np.asarray(des, dtype=np.float32)
@@ -81,18 +92,10 @@ class Sift(Component):
                 confidence=1.0,
                 classId=0,
                 classLabel="SIFT",
-                keyPoints=[self._kp_to_model(p) for p in kp],
+                keyPoints=keypoints_models,
                 boundingBox=None,
             )
         ]
-
-        self.outputData = {
-            "descriptors": {
-                "shape": [int(des.shape[0]), int(des.shape[1])],
-                "dtype": "float32",
-                "values": des.tolist(),
-            }
-        }
 
         out_img = ImageModel(
             name=img.name,

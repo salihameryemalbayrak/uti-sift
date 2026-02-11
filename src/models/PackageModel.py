@@ -17,7 +17,7 @@ class KeyPoints(BaseKeyPoints):
     angle: float | None = None
     response: float | None = None
     octave: int | None = None
-    class_id: int | None = None
+    descriptor: Optional[List[float]] = None
 
 class Detection(BaseDetection):
     keyPoints: Optional[List[KeyPoints]] = None
@@ -30,14 +30,6 @@ class OutputDetections(Output):
     class Config:
         title = "Output Detections"
 
-
-class OutputData(Output):
-    name: Literal["outputData"] = "outputData"
-    value: Union[list, dict]
-    type: Literal["object"] = "object"
-
-    class Config:
-        title = "Output Data"
 
 class OutputImage(Output):
     name: Literal["outputImage"] = "outputImage"
@@ -264,7 +256,6 @@ class SiftConfigs(Configs):
 
 class SiftOutputs(Outputs):
     outputImage: OutputImage
-    outputData: OutputData
     outputDetections: OutputDetections
 
 
