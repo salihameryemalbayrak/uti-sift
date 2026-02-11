@@ -12,23 +12,13 @@ class InputImage(Input):
     class Config:
         title = "Image"
 
-class KeyPoints(BaseKeyPoints):
-    size: float | None = None
-    angle: float | None = None
-    response: float | None = None
-    octave: int | None = None
-    descriptor: Optional[List[float]] = None
-
-class Detection(BaseDetection):
-    keyPoints: Optional[List[KeyPoints]] = None
-
-class OutputDetections(Output):
-    name: Literal["outputDetections"] = "outputDetections"
-    value: List[Detection]
-    type: Literal["list"] = "list"
+class OutputData(Output):
+    name: Literal["outputData"] = "outputData"
+    value: Union[list, dict]
+    type: Literal["object"] = "object"
 
     class Config:
-        title = "Output Detections"
+        title = "Output Data"
 
 
 class OutputImage(Output):
@@ -230,12 +220,12 @@ class OctaveLayersEnabled(Config):
 
 class OctaveLayersDisabled(Config):
     name: Literal["OctaveLayersDisabled"] = "OctaveLayersDisabled"
-    value: int = 3  # ✅ default nOctaveLayers
+    value: int = 3
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
 
     class Config:
-        title = "Disabled (default)"
+        title = "Disabled"
 
 
 class ConfigOctaveLayers(Config):
@@ -256,7 +246,7 @@ class SiftConfigs(Configs):
 
 class SiftOutputs(Outputs):
     outputImage: OutputImage
-    outputDetections: OutputDetections
+    outputData: OutputData
 
 
 class SiftRequest(Request):

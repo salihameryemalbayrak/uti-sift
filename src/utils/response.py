@@ -5,9 +5,8 @@ from components.Sift.src.models.PackageModel import PackageModel, PackageConfigs
 
 def build_response(context):
     outputData = OutputData(value=context.outputData)
-    outputDetections = OutputDetections(value=context.detections)
     outputImage = OutputImage(value=context.image)
-    siftOutputs = SiftOutputs(outputImage=outputImage, outputDetections=outputDetections, outputData=outputData)
+    siftOutputs = SiftOutputs(outputImage=outputImage, outputData=outputData)
     siftResponse = SiftResponse(outputs=siftOutputs)
     siftExecutor = SiftExecutor(value=siftResponse)
     executor = ConfigExecutor(value=siftExecutor)
