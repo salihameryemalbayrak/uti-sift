@@ -30,16 +30,6 @@ class OutputDetections(Output):
     class Config:
         title = "Output Detections"
 
-
-class OutputImage(Output):
-    name: Literal["outputImage"] = "outputImage"
-    value: Image
-    type: Literal["object"] = "object"
-
-    class Config:
-        title = "Output Image"
-
-
 class SiftInputs(Inputs):
     inputImage: InputImage
 
@@ -255,7 +245,6 @@ class SiftConfigs(Configs):
     configOctaveLayers: ConfigOctaveLayers
 
 class SiftOutputs(Outputs):
-    outputImage: OutputImage
     outputDetections: OutputDetections
 
 

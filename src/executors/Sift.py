@@ -83,7 +83,6 @@ class Sift(Component):
         else:
             des = np.asarray(des, dtype=np.float32)
 
-        vis = cv2.drawKeypoints(frame, kp, None)
 
         self.detections = [
             Detection(
@@ -94,16 +93,7 @@ class Sift(Component):
                 boundingBox=None,
             )
         ]
-
-        out_img = ImageModel(
-            name=img.name,
-            uID=img.uID,
-            mimeType=img.mimeType,
-            encoding=img.encoding,
-            value=vis,
-            type=img.type,
-        )
-        self.image = Image.set_frame(img=out_img, package_uID=self.uID, redis_db=self.redis_db)
+        self.image = Image.set_frame(package_uID=self.uID, redis_db=self.redis_db)
 
         return build_response(context=self)
 
