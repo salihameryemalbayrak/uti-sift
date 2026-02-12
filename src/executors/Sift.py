@@ -44,7 +44,6 @@ class Sift(Component):
             angle=float(kp.angle),
             response=float(kp.response),
             octave=int(kp.octave),
-            class_id=int(getattr(kp, "class_id", -1)),
             descriptor=desc_row.astype(float).tolist() if desc_row is not None else None,
         )
 
