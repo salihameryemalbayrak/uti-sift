@@ -93,8 +93,6 @@ class Sift(Component):
                 boundingBox=None,
             )
         ]
-        self.image = Image.set_frame(package_uID=self.uID, redis_db=self.redis_db)
-
         return build_response(context=self)
 
     def run(self):
