@@ -46,8 +46,8 @@ class ConfigMaxFeaturesValue(Config):
         }
 
 class MaxFeaturesEnabled(Config):
-    name: Literal["MaxFeaturesEnabled"] = "MaxFeaturesEnabled"
-    value: Literal["MaxFeaturesEnabled"] = "MaxFeaturesEnabled"
+    name: Literal["maxFeaturesEnabled"] = "maxFeaturesEnabled"
+    value: Literal["maxFeaturesEnabled"] = "maxFeaturesEnabled"
     type: Literal["string"] = "string"
     field: Literal["option"] = "option"
     configMaxFeaturesValue: ConfigMaxFeaturesValue
@@ -55,7 +55,7 @@ class MaxFeaturesEnabled(Config):
         title = "Enabled"
 
 class MaxFeaturesDisabled(Config):
-    name: Literal["MaxFeaturesDisabled"] = "MaxFeaturesDisabled"
+    name: Literal["maxFeaturesDisabled"] = "maxFeaturesDisabled"
     value: int = 0
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
@@ -94,8 +94,8 @@ class ConfigContrastThresholdValue(Config):
         }
 
 class ContrastThresholdEnabled(Config):
-    name: Literal["ContrastThresholdEnabled"] = "ContrastThresholdEnabled"
-    value: Literal["ContrastThresholdEnabled"] = "ContrastThresholdEnabled"
+    name: Literal["contrastThresholdEnabled"] = "contrastThresholdEnabled"
+    value: Literal["contrastThresholdEnabled"] = "contrastThresholdEnabled"
     type: Literal["string"] = "string"
     field: Literal["option"] = "option"
     configContrastThresholdValue: ConfigContrastThresholdValue
@@ -103,7 +103,7 @@ class ContrastThresholdEnabled(Config):
         title = "Enabled"
 
 class ContrastThresholdDisabled(Config):
-    name: Literal["ContrastThresholdDisabled"] = "ContrastThresholdDisabled"
+    name: Literal["contrastThresholdDisabled"] = "contrastThresholdDisabled"
     value: float = 0.04
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
@@ -142,8 +142,8 @@ class ConfigEdgeThresholdValue(Config):
         }
 
 class EdgeThresholdEnabled(Config):
-    name: Literal["EdgeThresholdEnabled"] = "EdgeThresholdEnabled"
-    value: Literal["EdgeThresholdEnabled"] = "EdgeThresholdEnabled"
+    name: Literal["edgeThresholdEnabled"] = "edgeThresholdEnabled"
+    value: Literal["edgeThresholdEnabled"] = "edgeThresholdEnabled"
     type: Literal["string"] = "string"
     field: Literal["option"] = "option"
     configEdgeThresholdValue: ConfigEdgeThresholdValue
@@ -151,7 +151,7 @@ class EdgeThresholdEnabled(Config):
         title = "Enabled"
 
 class EdgeThresholdDisabled(Config):
-    name: Literal["EdgeThresholdDisabled"] = "EdgeThresholdDisabled"
+    name: Literal["edgeThresholdDisabled"] = "edgeThresholdDisabled"
     value: float = 10.0
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
@@ -189,8 +189,8 @@ class ConfigSigmaValue(Config):
         }
 
 class SigmaEnabled(Config):
-    name: Literal["SigmaEnabled"] = "SigmaEnabled"
-    value: Literal["SigmaEnabled"] = "SigmaEnabled"
+    name: Literal["sigmaEnabled"] = "sigmaEnabled"
+    value: Literal["sigmaEnabled"] = "sigmaEnabled"
     type: Literal["string"] = "string"
     field: Literal["option"] = "option"
     configSigmaValue: ConfigSigmaValue
@@ -198,7 +198,7 @@ class SigmaEnabled(Config):
         title = "Enabled"
 
 class SigmaDisabled(Config):
-    name: Literal["SigmaDisabled"] = "SigmaDisabled"
+    name: Literal["sigmaDisabled"] = "sigmaDisabled"
     value: float = 1.6
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
@@ -236,8 +236,8 @@ class ConfigOctaveLayersValue(Config):
         }
 
 class OctaveLayersEnabled(Config):
-    name: Literal["OctaveLayersEnabled"] = "OctaveLayersEnabled"
-    value: Literal["OctaveLayersEnabled"] = "OctaveLayersEnabled"
+    name: Literal["octaveLayersEnabled"] = "octaveLayersEnabled"
+    value: Literal["octaveLayersEnabled"] = "octaveLayersEnabled"
     type: Literal["string"] = "string"
     field: Literal["option"] = "option"
     configOctaveLayersValue: ConfigOctaveLayersValue
@@ -245,7 +245,7 @@ class OctaveLayersEnabled(Config):
         title = "Enabled"
 
 class OctaveLayersDisabled(Config):
-    name: Literal["OctaveLayersDisabled"] = "OctaveLayersDisabled"
+    name: Literal["octaveLayersDisabled"] = "octaveLayersDisabled"
     value: int = 3
     type: Literal["number"] = "number"
     field: Literal["option"] = "option"
